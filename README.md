@@ -31,8 +31,8 @@ Built with vanilla JavaScript and no external frameworks, this tool runs entirel
 | 📊 **Visual Breakdown** | Interactive treemap chart showing capacity distribution |
 | 📄 **PDF Reports** | Generate professional reports for procurement teams |
 | 💾 **Export/Import** | Save and share calculations as JSON files |
-| 📱 **PWA Support** | Install as a native-like desktop application |
-| 🔌 **Offline Mode** | Full functionality without internet connection |
+| 📱 **PWA Support** | Install as a native-like desktop app (when served via HTTP/HTTPS) |
+| 🔌 **Offline Mode** | Full offline capability with service worker caching |
 | 💽 **Auto-save** | Automatically persists data to local storage |
 | 🎨 **Dark Theme** | Modern, eye-friendly dark interface |
 
@@ -70,33 +70,51 @@ Built with vanilla JavaScript and no external frameworks, this tool runs entirel
 
 ---
 
-### PWA Installation
-<!-- Replace with actual screenshot -->
-<div align="center">
-<img src="screenshots/pwa-install.png" alt="PWA Installation" width="400"/>
-</div>
-
-<p align="center"><em>Install as a standalone desktop application</em></p>
-
----
-
 ## 🚀 Installation
 
-### Option 1: Use Online (Recommended)
+### Option 1: Quick Start (Local File)
 Simply open `index.html` in a modern web browser. No server required.
 
-### Option 2: Install as Desktop App (PWA)
-1. Open the application in **Chrome** or **Edge**
-2. Click the **"Install App"** button in the header, or
-3. Click the install icon (⊕) in the browser's address bar
-4. The app will be added to your desktop/start menu
-
-### Option 3: Clone Repository
 ```bash
+# Clone the repository
 git clone https://github.com/yourusername/plc-capacity-calculator.git
 cd plc-capacity-calculator
-# Open index.html in your browser
+
+# Open index.html directly in your browser
+# Double-click index.html or drag it to your browser
 ```
+
+**Note:** When using this method, PWA install features are not available, but all core functionality works perfectly.
+
+### Option 2: Install as Desktop App (PWA)
+
+To enable PWA installation and full offline support, you must serve the app via HTTP/HTTPS:
+
+**Using Python (Built-in):**
+```bash
+# Python 3
+python -m http.server 8000
+
+# Then open: http://localhost:8000
+```
+
+**Using Node.js:**
+```bash
+# Install http-server globally
+npm install -g http-server
+
+# Run server
+http-server -p 8000
+
+# Then open: http://localhost:8000
+```
+
+**Installing as Desktop App:**
+1. Open the application at `http://localhost:8000` in **Chrome** or **Edge**
+2. Click the install icon (⊕) in the browser's address bar
+3. The app will be added to your desktop/start menu with full offline support
+
+> **Why a server is needed:** PWA features (install prompt, service workers, offline caching) require the app to be served via HTTP/HTTPS due to browser security policies. Simply opening `index.html` as a file:// URL disables these features.
 
 ---
 
