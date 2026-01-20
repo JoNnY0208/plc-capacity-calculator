@@ -1,85 +1,286 @@
-# PLC Capacity Calculator
+# ⚡ PLC Capacity Calculator
 
-A Progressive Web App (PWA) for calculating PLC memory capacity requirements in industrial automation projects.
+<div align="center">
 
-## Features
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![PWA](https://img.shields.io/badge/PWA-ready-purple.svg)
+![Offline](https://img.shields.io/badge/offline-supported-orange.svg)
 
-- **Real-time Calculations**: All values update instantly as you type
-- **PWA Support**: Install as a desktop app on Windows, macOS, or mobile devices
-- **Offline Functionality**: Works without internet after initial load
-- **Export/Import**: Save and share calculations as JSON files
-- **PDF Reports**: Generate professional reports for the electrical design team
-- **Local Storage**: Automatically saves your work between sessions
+**A professional Progressive Web App for calculating PLC memory capacity requirements in industrial automation projects.**
 
-## Installation
+[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Screenshots](#-screenshots) • [Documentation](#-documentation)
 
-### As a Web App
-1. Open `index.html` in a modern web browser (Chrome, Edge, Firefox, Safari)
-2. The app will work immediately
+</div>
 
-### As an Installed App (PWA)
-1. Open `index.html` in Chrome or Edge
-2. Click the "Install App" button in the header, or
-3. Click the install icon in the browser's address bar
-4. The app will be added to your desktop/taskbar
+---
 
-## Usage
+## 📋 Overview
+
+PLC Capacity Calculator is a lightweight, offline-capable web application designed for controls engineers and electrical designers. It helps determine the minimum PLC memory requirements based on equipment modules, alarms, and safety margins — essential for accurate PLC procurement and system design.
+
+Built with vanilla JavaScript and no external frameworks, this tool runs entirely in the browser and can be installed as a desktop application on Windows, macOS, and Linux.
+
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---------|-------------|
+| 🔢 **Real-time Calculations** | Instant updates as you modify input parameters |
+| 📊 **Visual Breakdown** | Interactive treemap chart showing capacity distribution |
+| 📄 **PDF Reports** | Generate professional reports for procurement teams |
+| 💾 **Export/Import** | Save and share calculations as JSON files |
+| 📱 **PWA Support** | Install as a native-like desktop application |
+| 🔌 **Offline Mode** | Full functionality without internet connection |
+| 💽 **Auto-save** | Automatically persists data to local storage |
+| 🎨 **Dark Theme** | Modern, eye-friendly dark interface |
+
+---
+
+## 🖼️ Screenshots
+
+### Main Interface
+<!-- Replace with actual screenshot -->
+<div align="center">
+<img src="screenshots/main-interface.png" alt="Main Interface" width="800"/>
+</div>
+
+<p align="center"><em>Clean, professional interface with real-time calculations and visual feedback</em></p>
+
+---
+
+### Capacity Breakdown Chart
+<!-- Replace with actual screenshot -->
+<div align="center">
+<img src="screenshots/chart-view.png" alt="Capacity Chart" width="800"/>
+</div>
+
+<p align="center"><em>Interactive treemap visualisation of memory allocation by category</em></p>
+
+---
+
+### PDF Report Generation
+<!-- Replace with actual screenshot -->
+<div align="center">
+<img src="screenshots/pdf-report.png" alt="PDF Report" width="600"/>
+</div>
+
+<p align="center"><em>Professional PDF reports ready for procurement and documentation</em></p>
+
+---
+
+### PWA Installation
+<!-- Replace with actual screenshot -->
+<div align="center">
+<img src="screenshots/pwa-install.png" alt="PWA Installation" width="400"/>
+</div>
+
+<p align="center"><em>Install as a standalone desktop application</em></p>
+
+---
+
+## 🚀 Installation
+
+### Option 1: Use Online (Recommended)
+Simply open `index.html` in a modern web browser. No server required.
+
+### Option 2: Install as Desktop App (PWA)
+1. Open the application in **Chrome** or **Edge**
+2. Click the **"Install App"** button in the header, or
+3. Click the install icon (⊕) in the browser's address bar
+4. The app will be added to your desktop/start menu
+
+### Option 3: Clone Repository
+```bash
+git clone https://github.com/yourusername/plc-capacity-calculator.git
+cd plc-capacity-calculator
+# Open index.html in your browser
+```
+
+---
+
+## 📖 Usage
 
 ### Input Parameters
-- **EM**: Number of Equipment Modules
-- **UN**: Number of Units
-- **Alarms per EM/UN**: Alarm count per module type
-- **AOI**: Number of Add-On Instructions
-- **Percentage Error**: Safety margin for calculation errors
-- **Spare Capacity**: Additional capacity for future expansion
 
-### Constants
-Pre-defined memory values per unit that can be adjusted based on your specific PLC configuration:
-- Framework base memory
-- Memory per EM, UN, and AOI
-- Memory per alarm
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| **EM** | Number of Equipment Modules | 6 |
+| **UN** | Number of Units | 1 |
+| **Alarms per EM** | Alarm count per Equipment Module | 19 |
+| **Alarms per UN** | Alarm count per Unit | 60 |
+| **AOI** | Number of Add-On Instructions | 6 |
+| **Percentage Error** | Safety margin for calculation errors | 15% |
+| **Spare Capacity** | Additional capacity for future expansion | 30% |
 
-### Outputs
-- **Total Capacity**: Displayed in Megabytes
-- **Breakdown Table**: Shows memory usage by category
-- **Treemap Chart**: Visual representation of capacity distribution
+### Constants (Editable)
 
-## File Operations
+These represent memory consumption per unit and can be adjusted based on your specific PLC configuration:
+
+| Constant | Description | Default (bytes) |
+|----------|-------------|-----------------|
+| **Framework** | Base framework memory | 353,123 |
+| **EM** | Memory per Equipment Module | 136,801 |
+| **UN** | Memory per Unit | 340,889 |
+| **Alarms EM** | Memory per EM alarm | 1,145 |
+| **Alarms UN** | Memory per UN alarm | 1,145 |
+| **AOI** | Memory per Add-On Instruction | 6,044 |
+
+### Calculation Formula
+
+```
+Subtotal = Framework + (EM × EM_count) + (UN × UN_count) + 
+           (Alarms_EM × Total_EM_Alarms) + (Alarms_UN × UN_Alarms) + 
+           (AOI × AOI_count)
+
+With Error = Subtotal × (1 + Error%)
+Total = With_Error × (1 + Spare%)
+Result (Mb) = Total ÷ 1,048,576
+```
+
+---
+
+## 📁 File Operations
 
 ### Export Data
-Click "Export Data" to save the current calculation as a JSON file. The file includes:
-- Project information
-- All input parameters
-- Constant values
-- Calculated results
+Click **"Export Data"** to save your calculation as a JSON file. Perfect for:
+- Sharing configurations with colleagues
+- Backing up project calculations
+- Version controlling your estimates
+
+**File format:** `PLC_Calc_{ProjectNumber}_{Date}.json`
 
 ### Import Data
-Click "Import Data" to load a previously saved calculation or one shared by a colleague.
+Click **"Import Data"** to load a previously saved calculation. The app validates the file structure before importing.
 
-### Generate PDF
-Click "Generate PDF Report" to create a professional report suitable for sharing with the electrical design team. Requires Project Name and Project Number.
+### Generate PDF Report
+Click **"Generate PDF Report"** to create a professional document including:
+- Project information
+- Capacity requirements summary
+- Detailed breakdown table
+- Input parameters used
+- Constants reference
+- Procurement recommendations
 
-## Keyboard Shortcuts
+**File format:** `PLC_Capacity_Report_{ProjectNumber}_{Date}.pdf`
 
-- `Ctrl+S` / `Cmd+S`: Export data
-- `Ctrl+O` / `Cmd+O`: Import data
-- `Ctrl+P` / `Cmd+P`: Generate PDF
-- `Esc`: Close modal dialogs
+> **Note:** Project Name and Project Number are required to generate a PDF report.
 
-## Technical Details
+---
 
-- **Technology**: HTML5, CSS3, Vanilla JavaScript
-- **Charts**: Chart.js with Treemap plugin
-- **PDF**: jsPDF library
-- **Storage**: localStorage API
+## ⌨️ Keyboard Shortcuts
 
-## Browser Support
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl/Cmd + S` | Export data to JSON |
+| `Ctrl/Cmd + O` | Import data from JSON |
+| `Ctrl/Cmd + P` | Generate PDF report |
+| `Esc` | Close modal dialogs |
 
-- Chrome 80+
-- Edge 80+
-- Firefox 75+
-- Safari 13+
+---
 
-## Version
+## 🛠️ Technical Details
 
-0.01
+### Technology Stack
+
+- **Frontend:** HTML5, CSS3, Vanilla JavaScript (ES6+)
+- **Charts:** [Chart.js](https://www.chartjs.org/) with Treemap plugin
+- **PDF Generation:** [jsPDF](https://github.com/parallax/jsPDF)
+- **PWA:** Service Worker + Web App Manifest
+
+### Browser Support
+
+| Browser | Version |
+|---------|---------|
+| Chrome | 80+ |
+| Edge | 80+ |
+| Firefox | 75+ |
+| Safari | 13+ |
+
+### File Structure
+
+```
+plc-capacity-calculator/
+├── index.html          # Main application
+├── styles.css          # Application styles
+├── app.js              # Core logic & calculations
+├── sw.js               # Service Worker (offline support)
+├── manifest.json       # PWA manifest
+├── icons/
+│   ├── icon-192.png    # App icon (192×192)
+│   └── icon-512.png    # App icon (512×512)
+└── README.md           # This file
+```
+
+---
+
+## 🔧 Customisation
+
+### Modifying Default Values
+
+Edit the `DEFAULT_VALUES` object in `app.js`:
+
+```javascript
+const DEFAULT_VALUES = {
+  inputs: {
+    inputEM: 6,
+    inputUN: 1,
+    alarmsPerEM: 19,
+    // ... modify as needed
+  },
+  constants: {
+    constFramework: 353123,
+    constEM: 136801,
+    // ... modify as needed
+  }
+};
+```
+
+### Changing Theme Colours
+
+Edit the CSS variables in `styles.css`:
+
+```css
+:root {
+  --bg-primary: #1a1a2e;
+  --accent-primary: #15C1AD;
+  /* ... modify as needed */
+}
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 Licence
+
+This project is licensed under the MIT Licence - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgements
+
+- [Chart.js](https://www.chartjs.org/) - Beautiful charts
+- [jsPDF](https://github.com/parallax/jsPDF) - PDF generation
+- Controls engineers everywhere who inspired this tool
+
+---
+
+<div align="center">
+
+**Made with ⚡ for the automation community**
+
+[Report Bug](https://github.com/yourusername/plc-capacity-calculator/issues) • [Request Feature](https://github.com/yourusername/plc-capacity-calculator/issues)
+
+</div>
