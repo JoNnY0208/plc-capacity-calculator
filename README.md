@@ -82,8 +82,4 @@ Click "Generate PDF Report" to create a professional report suitable for sharing
 
 ## Version
 
-1.0.0
-
-## Licence
-
-For internal use only.
+0.01
