@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#15C1AD"/>
+      <stop offset="100%" style="stop-color:#0fa89a"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="512" height="512" rx="80" fill="url(#bg)"/>
+  <!-- PLC Box -->
+  <rect x="100" y="120" width="312" height="272" rx="20" fill="#1f2940" stroke="url(#accent)" stroke-width="4"/>
+  <!-- Indicator lights row -->
+  <circle cx="150" cy="170" r="15" fill="#27ae60"/>
+  <circle cx="200" cy="170" r="15" fill="#e67e22"/>
+  <circle cx="250" cy="170" r="15" fill="#15C1AD"/>
+  <circle cx="300" cy="170" r="15" fill="#3498db"/>
+  <circle cx="350" cy="170" r="15" fill="#9b59b6"/>
+  <!-- Memory bars -->
+  <rect x="130" y="210" width="252" height="30" rx="6" fill="#0f0f1a"/>
+  <rect x="134" y="214" width="180" height="22" rx="4" fill="url(#accent)"/>
+  <rect x="130" y="260" width="252" height="30" rx="6" fill="#0f0f1a"/>
+  <rect x="134" y="264" width="120" height="22" rx="4" fill="#e67e22"/>
+  <rect x="130" y="310" width="252" height="30" rx="6" fill="#0f0f1a"/>
+  <rect x="134" y="314" width="200" height="22" rx="4" fill="#27ae60"/>
+  <!-- Calculator symbol -->
+  <text x="256" y="410" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#15C1AD" text-anchor="middle">Mb</text>
+</svg>

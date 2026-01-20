@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculate PLC memory capacity requirements for industrial automation projects">
+  <meta name="theme-color" content="#15C1AD">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <title>PLC Capacity Calculator</title>
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="./manifest.json">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-title">
+        <div class="logo-icon">⚡</div>
+        <h1>PLC Capacity Calculator</h1>
+      </div>
+      <button id="installBtn" class="install-btn hidden">
+        <span>📥</span>
+        Install App
+      </button>
+    </header>
+    
+    <!-- Project Information -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-header-icon">📋</div>
+        <h2 class="card-title">Project Information</h2>
+      </div>
+      <div class="project-grid">
+        <div class="form-group">
+          <label class="form-label" for="projectName">Project Name</label>
+          <input type="text" id="projectName" class="form-input" placeholder="e.g., HOS5 Production Line">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="projectNumber">Project Number</label>
+          <input type="text" id="projectNumber" class="form-input" placeholder="e.g., PRJ-2025-0042">
+        </div>
+        <div class="form-group project-notes">
+          <label class="form-label" for="projectNotes">Notes / Comments</label>
+          <textarea id="projectNotes" class="form-input form-textarea" placeholder="Enter any additional notes, assumptions, or special requirements for the electrical design team..."></textarea>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Input Parameters -->
+    <div class="inputs-wrapper">
+      <!-- Variable Inputs -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-header-icon">⚙️</div>
+          <h2 class="card-title">Input Parameters</h2>
+        </div>
+        <div class="inputs-grid">
+          <div class="form-group">
+            <label class="form-label" for="inputEM">How many EM?</label>
+            <input type="number" id="inputEM" class="form-input" min="0" step="1" value="6">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="inputUN">How many UN?</label>
+            <input type="number" id="inputUN" class="form-input" min="0" step="1" value="1">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="alarmsPerEM">How many alarms per EM?</label>
+            <input type="number" id="alarmsPerEM" class="form-input" min="0" step="1" value="19">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="totalAlarmsPerEM">Total no. of alarms per EM <span class="unit">(auto)</span></label>
+            <input type="number" id="totalAlarmsPerEM" class="form-input readonly" readonly value="114">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="alarmsPerUN">How many alarms per UN?</label>
+            <input type="number" id="alarmsPerUN" class="form-input" min="0" step="1" value="60">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="inputAOI">How many AOI?</label>
+            <input type="number" id="inputAOI" class="form-input" min="0" step="1" value="6">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="percentageError">Percentage Error <span class="unit">(%)</span></label>
+            <input type="number" id="percentageError" class="form-input" min="0" max="100" step="0.1" value="15">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="spareCapacity">Spare Capacity for Expansion <span class="unit">(%)</span></label>
+            <input type="number" id="spareCapacity" class="form-input" min="0" max="100" step="0.1" value="30">
+          </div>
+        </div>
+      </section>
+      
+      <!-- Constants -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-header-icon">🔧</div>
+          <h2 class="card-title">Constant Values</h2>
+        </div>
+        <div class="constants-grid">
+          <div class="form-group">
+            <label class="form-label" for="constFramework">Framework etc. <span class="unit">(bytes)</span></label>
+            <input type="number" id="constFramework" class="form-input constant" min="0" step="1" value="353123">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="constEM">EM <span class="unit">(bytes/unit)</span></label>
+            <input type="number" id="constEM" class="form-input constant" min="0" step="1" value="136801">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="constUN">UN <span class="unit">(bytes/unit)</span></label>
+            <input type="number" id="constUN" class="form-input constant" min="0" step="1" value="340889">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="constAlarmsEM">Alarms EM <span class="unit">(bytes/alarm)</span></label>
+            <input type="number" id="constAlarmsEM" class="form-input constant" min="0" step="1" value="1145">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="constAlarmsUN">Alarms UN <span class="unit">(bytes/alarm)</span></label>
+            <input type="number" id="constAlarmsUN" class="form-input constant" min="0" step="1" value="1145">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="constAOI">AOI <span class="unit">(bytes/unit)</span></label>
+            <input type="number" id="constAOI" class="form-input constant" min="0" step="1" value="6044">
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <!-- Results Panel -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-header-icon">📊</div>
+        <h2 class="card-title">Results</h2>
+      </div>
+      <div class="results-wrapper">
+        <!-- Total Display -->
+        <div class="result-total-card">
+          <div class="result-total-label">Minimal Required PLC Capacity</div>
+          <div class="result-total-value"><span id="resultTotal">2.50</span> <span style="font-size: 1.5rem;">Mb</span></div>
+          <div class="result-total-unit" id="resultBytes">2,616,716 bytes</div>
+          <div class="result-formula" id="resultFormula">2,616,716 ÷ 1,048,576 = 2.50 Mb</div>
+        </div>
+        
+        <!-- Breakdown Table -->
+        <div>
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th style="text-align: right;">Value (bytes)</th>
+                <th style="text-align: right;">%</th>
+              </tr>
+            </thead>
+            <tbody id="resultsTableBody">
+              <!-- Populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Chart -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-header-icon">📈</div>
+        <h2 class="card-title">Capacity Breakdown</h2>
+      </div>
+      <div class="chart-container">
+        <canvas id="capacityChart"></canvas>
+      </div>
+    </section>
+    
+    <!-- Action Buttons -->
+    <section class="card">
+      <div class="actions-wrapper">
+        <button id="exportBtn" class="btn btn-secondary">
+          <span>📤</span>
+          Export Data
+        </button>
+        <button id="importBtn" class="btn btn-secondary">
+          <span>📥</span>
+          Import Data
+        </button>
+        <input type="file" id="importInput" class="file-input-hidden" accept=".json">
+        <button id="pdfBtn" class="btn btn-primary">
+          <span>📄</span>
+          Generate PDF Report
+        </button>
+        <button id="resetBtn" class="btn btn-danger">
+          <span>🔄</span>
+          Reset to Defaults
+        </button>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+  
+  <!-- Confirmation Modal -->
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal">
+      <h3 class="modal-title" id="modalTitle">Confirm Action</h3>
+      <p class="modal-message" id="modalMessage">Are you sure you want to proceed?</p>
+      <div class="modal-actions">
+        <button id="modalCancel" class="btn btn-secondary">Cancel</button>
+        <button id="modalConfirm" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- External Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.0/dist/chartjs-chart-treemap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+  <!-- Application Script -->
+  <script src="./app.js"></script>
+</body>
+</html>
