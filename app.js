@@ -52,6 +52,15 @@ const CHART_COLOURS = {
 // ============================================
 // PWA Installation
 // ============================================
+// NOTE: The install button has been removed from index.html because PWA installation
+// requires the app to be served via HTTP/HTTPS (or localhost). When opening index.html
+// as a file:// URL, the beforeinstallprompt event never fires and the button won't work.
+//
+// The PWA infrastructure (service worker, manifest) is kept for users who serve the app
+// via a web server. They can install the app using the browser's native install prompt
+// (⊕ icon in the address bar) without needing a custom install button.
+//
+// To use PWA features, serve with: python -m http.server 8000
 
 let deferredPrompt = null;
 
@@ -97,6 +106,9 @@ async function installApp() {
 // ============================================
 // Service Worker Registration
 // ============================================
+// Service worker provides offline caching and improved performance when the app
+// is served via HTTP/HTTPS. It won't register when opening index.html as file://
+// but the app will still function normally without offline support.
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
